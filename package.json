@@ -1,6 +1,6 @@
 {
   "name": "advanced-post-message",
-  "version": "0.0.1-alpha.0",
+  "version": "0.0.1-beta.0",
   "description": "Inspired from post robot, this module is designed to provide a simple interface for cross domain communication.",
   "main": "dist/index.js",
   "files": [
@@ -21,13 +21,22 @@
   },
   "author": {
     "name": "Deepak Kharah",
-    "email": "42672761+Deepak-Kharah@users.noreply.github.com"
+    "email": "42672761+Deepak-Kharah@users.noreply.github.com",
+    "url": "https://www.deepakkharah.com/"
+  },
+  "repository": "github:Deepak-Kharah/advanced-post-message",
+  "bugs": {
+    "url": "https://github.com/Deepak-Kharah/advanced-post-message/issues"
   },
   "license": "MIT",
   "dependencies": {
     "uuid": "^9.0.0",
     "zalgo-promise": "^1.0.48"
   },
+  "keywords": [
+    "post-message",
+    "post-robot"
+  ],
   "devDependencies": {
     "@types/jest": "^29.5.5",
     "@types/uuid": "^9.0.2",
