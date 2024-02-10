@@ -1,11 +1,10 @@
-import { Config } from "@configHandler/configHandler";
-
-import { Logger } from "@logger/logger";
+import { Config } from "../../configHandler";
+import { Logger } from "../../logger";
 import {
   EditorPostMessageNature,
   AdvPostMessageErrorObject,
-} from "@eventManager/postMessageEvents.types";
-import { PostMessage } from "@eventManager/sendMessage";
+} from "../postMessageEvents.types";
+import { PostMessage } from "../sendMessage";
 
 describe("PostMessage", () => {
   const targetWindow = window;

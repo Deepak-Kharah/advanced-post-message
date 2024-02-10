@@ -1,4 +1,4 @@
-import { ERROR_MESSAGES } from "@logger/errorMessages.constants";
+import { ERROR_MESSAGES } from "../errorMessages.constants";
 
 describe("ERROR_MESSAGES", () => {
   it("should have the correct common error messages", () => {

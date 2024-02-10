@@ -26,13 +26,13 @@ module.exports = {
 
   resolve: {
     extensions: [".json", ".js", ".ts"],
-    alias: {
-      "@common": path.resolve(__dirname, "src", "common"),
-      "@configHandler": path.resolve(__dirname, "src", "configHandler"),
-      "@eventManager": path.resolve(__dirname, "src", "eventManager"),
-      "@logger": path.resolve(__dirname, "src", "logger"),
-      "@testUtils": path.resolve(__dirname, "src", "testUtils"),
-      "@": path.resolve(__dirname, "src"),
-    },
+    // alias: {
+    //   "@common": path.resolve(__dirname, "src", "common"),
+    //   "@configHandler": path.resolve(__dirname, "src", "configHandler"),
+    //   "@eventManager": path.resolve(__dirname, "src", "eventManager"),
+    //   "@logger": path.resolve(__dirname, "src", "logger"),
+    //   "@testUtils": path.resolve(__dirname, "src", "testUtils"),
+    //   "@": path.resolve(__dirname, "src"),
+    // },
   },
 };

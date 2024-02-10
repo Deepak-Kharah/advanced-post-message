@@ -1,6 +1,6 @@
-import { Config } from "@configHandler/configHandler";
-import { EVENT_MANAGER_NAME } from "@eventManager/eventManager.constant";
-import { Logger, getErrorMessage } from "@logger/logger";
+import { Config } from "../../configHandler";
+import { EVENT_MANAGER_NAME } from "../../eventManager/eventManager.constant";
+import { Logger, getErrorMessage } from "../logger";
 
 describe("Logger", () => {
   let logger: Logger;

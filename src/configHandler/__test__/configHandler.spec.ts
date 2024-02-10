@@ -1,6 +1,6 @@
-import { Config } from "@configHandler/configHandler";
-import { ERROR_MESSAGES } from "@logger/errorMessages.constants";
-import { getErrorMessage } from "@logger/logger";
+import { getErrorMessage } from "../../logger";
+import { ERROR_MESSAGES } from "../../logger/errorMessages.constants";
+import { Config } from "../configHandler";
 
 describe("Config handler", () => {
   beforeAll(() => {

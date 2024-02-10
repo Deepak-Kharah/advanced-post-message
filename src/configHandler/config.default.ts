@@ -1,5 +1,5 @@
-import { UserConfig } from "@configHandler/configHandler.types";
-import { ANY_ORIGIN } from "@eventManager/eventManager.constant";
+import { ANY_ORIGIN } from "../eventManager/eventManager.constant";
+import { UserConfig } from "./configHandler.types";
 
 export function getDefaultConfig(): UserConfig {
   return {

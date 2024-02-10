@@ -1,10 +1,10 @@
-import { Config } from "@configHandler/configHandler";
+import { Config } from "../configHandler";
+import { Logger } from "../logger";
 import {
+  PostMessageSendOptions,
   EditorPostMessageNature,
   EditorRequestEventMessage,
-  PostMessageSendOptions,
-} from "@eventManager/postMessageEvents.types";
-import { Logger } from "@logger/logger";
+} from "./postMessageEvents.types";
 
 export class PostMessage {
   private config = Config.getAll();

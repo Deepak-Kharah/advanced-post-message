@@ -1,4 +1,4 @@
-import { uniqueId } from "@common/uniqueId";
+import { uniqueId } from "../uniqueId";
 
 describe("uniqueId", () => {
   it("should generate a unique ID", () => {

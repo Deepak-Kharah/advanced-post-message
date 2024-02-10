@@ -1,12 +1,12 @@
-import { Config } from "@configHandler/configHandler";
-import { ERROR_MESSAGES } from "@logger/errorMessages.constants";
-import { AdvancedPostMessage } from "@/index";
-import { Logger, getErrorMessage } from "@logger/logger";
-import { sleep } from "@testUtils/sleep";
+import { AdvancedPostMessage } from "..";
+import { Config } from "../configHandler";
+import { Logger, getErrorMessage } from "../logger";
+import { ERROR_MESSAGES } from "../logger/errorMessages.constants";
+import { sleep } from "../testUtils/sleep";
 
 const CHANNEL_ID = "channel-id";
 
-jest.mock("@common/uniqueId", () => {
+jest.mock("../common/uniqueId", () => {
   return {
     uniqueId: jest.fn().mockReturnValue("4b1c383a"),
   };

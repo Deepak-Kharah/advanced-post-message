@@ -1,4 +1,4 @@
-import { safeInterval } from "@common/safeInterval";
+import { safeInterval } from "../safeInterval";
 
 describe("safeInterval", () => {
   jest.useFakeTimers();

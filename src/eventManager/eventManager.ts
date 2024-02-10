@@ -1,26 +1,22 @@
 import { ZalgoPromise } from "zalgo-promise";
-
-import { safeInterval } from "@common/safeInterval";
-import { uniqueId } from "@common/uniqueId";
-import { Config } from "@configHandler/configHandler";
+import { safeInterval } from "../common/safeInterval";
+import { uniqueId } from "../common/uniqueId";
+import { Config } from "../configHandler";
+import { Logger, getErrorMessage } from "../logger";
+import { ERROR_MESSAGES, ERROR_CODES } from "../logger/errorMessages.constants";
+import { EVENT_MANAGER_NAME, RESPONSE_CYCLE } from "./eventManager.constant";
 import {
-  EVENT_MANAGER_NAME,
-  RESPONSE_CYCLE,
-} from "@eventManager/eventManager.constant";
-import {
+  RequestListener,
+  ResponseListener,
   EventManagerOptions,
   OnEvent,
   RequestHandler,
-  RequestListener,
-  ResponseListener,
-} from "@eventManager/eventManager.types";
+} from "./eventManager.types";
 import {
-  EditorPostMessageNature,
   EditorRequestEventMessage,
-} from "@eventManager/postMessageEvents.types";
-import { PostMessage } from "@eventManager/sendMessage";
-import { ERROR_CODES, ERROR_MESSAGES } from "@logger/errorMessages.constants";
-import { Logger, getErrorMessage } from "@logger/logger";
+  EditorPostMessageNature,
+} from "./postMessageEvents.types";
+import { PostMessage } from "./sendMessage";
 
 /**
  * Manages the events and message communication between different windows or iframes.

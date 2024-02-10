@@ -1,8 +1,8 @@
-import { getDefaultConfig } from "@configHandler/config.default";
-import { UserConfig } from "@configHandler/configHandler.types";
-import { EventManagerOptions } from "@eventManager/eventManager.types";
-import { ERROR_MESSAGES } from "@logger/errorMessages.constants";
-import { getErrorMessage } from "@logger/logger";
+import { EventManagerOptions } from "../eventManager/eventManager.types";
+import { getErrorMessage } from "../logger";
+import { ERROR_MESSAGES } from "../logger/errorMessages.constants";
+import { getDefaultConfig } from "./config.default";
+import { UserConfig } from "./configHandler.types";
 
 /**
  * Class responsible for handling the configuration settings.
