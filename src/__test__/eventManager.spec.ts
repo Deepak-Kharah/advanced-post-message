@@ -1,6 +1,6 @@
 import { Config } from "@configHandler/configHandler";
 import { ERROR_MESSAGES } from "@logger/errorMessages.constants";
-import { EventManager } from "@eventManager/eventManager";
+import { AdvancedPostMessage } from "@/index";
 import { Logger, getErrorMessage } from "@logger/logger";
 import { sleep } from "@testUtils/sleep";
 
@@ -13,7 +13,7 @@ jest.mock("@common/uniqueId", () => {
 });
 
 describe("event manager constructor", () => {
-  let eventManager: EventManager;
+  let eventManager: AdvancedPostMessage;
   beforeAll(() => {
     jest.spyOn(window, "postMessage").mockImplementation(() => {});
 
@@ -43,7 +43,7 @@ describe("event manager constructor", () => {
 
   test("should throw an error if the channel ID is not provided", () => {
     expect(() => {
-      eventManager = new EventManager("");
+      eventManager = new AdvancedPostMessage("");
     }).toThrowError(getErrorMessage(ERROR_MESSAGES.common.channelIdRequired));
   });
 
@@ -53,7 +53,7 @@ describe("event manager constructor", () => {
       postMessage: jest.fn(),
     } as unknown as Window;
 
-    eventManager = new EventManager(CHANNEL_ID, {
+    eventManager = new AdvancedPostMessage(CHANNEL_ID, {
       target: targetWindow,
     });
 
@@ -69,7 +69,7 @@ describe("event manager constructor", () => {
 
   test("should set the target origin provided by the user", async () => {
     const TEST_ORIGIN = "https://example.com";
-    eventManager = new EventManager(CHANNEL_ID, {
+    eventManager = new AdvancedPostMessage(CHANNEL_ID, {
       targetOrigin: TEST_ORIGIN,
     });
 
@@ -86,7 +86,7 @@ describe("event manager constructor", () => {
   });
 
   test("should set the current window if no target window is provided", async () => {
-    eventManager = new EventManager(CHANNEL_ID);
+    eventManager = new AdvancedPostMessage(CHANNEL_ID);
 
     try {
       await eventManager.send("test");
@@ -99,7 +99,7 @@ describe("event manager constructor", () => {
 
   test("should set the any origin if no target origin is provided", async () => {
     Config.reset();
-    eventManager = new EventManager(CHANNEL_ID);
+    eventManager = new AdvancedPostMessage(CHANNEL_ID);
 
     try {
       await eventManager.send("test");
@@ -122,7 +122,7 @@ describe("event manager constructor", () => {
     //@ts-expect-error: Mock window should not exist
     global.window = null;
 
-    eventManager = new EventManager(CHANNEL_ID, {
+    eventManager = new AdvancedPostMessage(CHANNEL_ID, {
       debug: true,
     });
 
@@ -147,7 +147,7 @@ describe("event manager constructor", () => {
 });
 
 describe("send method", () => {
-  let eventManager: EventManager;
+  let eventManager: AdvancedPostMessage;
   const mockHandler = jest.fn().mockImplementation((input) => {
     return { hello: "world", input };
   });
@@ -167,7 +167,7 @@ describe("send method", () => {
   });
 
   beforeEach(() => {
-    eventManager = new EventManager(CHANNEL_ID);
+    eventManager = new AdvancedPostMessage(CHANNEL_ID);
     eventManager.on("test", mockHandler);
   });
 
@@ -213,7 +213,7 @@ describe("send method", () => {
     const iframeWindow = iframe.contentWindow!;
     iframeWindow.close();
 
-    const eventManager = new EventManager(CHANNEL_ID, {
+    const eventManager = new AdvancedPostMessage(CHANNEL_ID, {
       target: iframeWindow,
       debug: true,
     });
@@ -249,7 +249,7 @@ describe("send method", () => {
 
     eventManager.destroy();
 
-    eventManager = new EventManager(CHANNEL_ID, {
+    eventManager = new AdvancedPostMessage(CHANNEL_ID, {
       target: iframeWindow,
     });
 
@@ -271,7 +271,7 @@ describe("send method", () => {
 
     eventManager.destroy();
 
-    eventManager = new EventManager(CHANNEL_ID, {
+    eventManager = new AdvancedPostMessage(CHANNEL_ID, {
       target: iframeWindow,
     });
 
@@ -296,7 +296,7 @@ describe("send method", () => {
 });
 
 describe("on method", () => {
-  let eventManager: EventManager;
+  let eventManager: AdvancedPostMessage;
   const mockHandler = jest.fn().mockImplementation((input) => {
     return { hello: "world", input };
   });
@@ -306,7 +306,7 @@ describe("on method", () => {
   });
 
   test("should save the handler if the event is not registered", async () => {
-    eventManager = new EventManager(CHANNEL_ID);
+    eventManager = new AdvancedPostMessage(CHANNEL_ID);
 
     eventManager.on("test", mockHandler);
 
@@ -333,7 +333,7 @@ describe("on method", () => {
         Logger.prototype.error(...messages);
       });
 
-    eventManager = new EventManager(CHANNEL_ID);
+    eventManager = new AdvancedPostMessage(CHANNEL_ID);
 
     eventManager.on("test", () => {});
     eventManager.on("test", () => {});
@@ -351,7 +351,7 @@ describe("on method", () => {
     eventManager.destroy();
   });
   test("should return an unsubscribe function", () => {
-    eventManager = new EventManager(CHANNEL_ID, { debug: true });
+    eventManager = new AdvancedPostMessage(CHANNEL_ID, { debug: true });
 
     const event = eventManager.on("test", () => {});
 
@@ -362,7 +362,7 @@ describe("on method", () => {
 });
 
 describe("unregister method", () => {
-  let eventManager: EventManager;
+  let eventManager: AdvancedPostMessage;
   const mockHandler = jest.fn().mockImplementation((input) => {
     return { hello: "world", input };
   });
@@ -371,7 +371,7 @@ describe("unregister method", () => {
     jest.spyOn(console, "debug");
   });
   test("should remove the handler if the event is registered", async () => {
-    eventManager = new EventManager(CHANNEL_ID, { debug: true });
+    eventManager = new AdvancedPostMessage(CHANNEL_ID, { debug: true });
 
     const event = eventManager.on("test", mockHandler);
 
@@ -403,7 +403,7 @@ describe("unregister method", () => {
         Logger.prototype.error(...messages);
       });
 
-    eventManager = new EventManager(CHANNEL_ID);
+    eventManager = new AdvancedPostMessage(CHANNEL_ID);
 
     const event = eventManager.on("test", () => {});
     event.unregister();
@@ -422,7 +422,7 @@ describe("unregister method", () => {
 });
 
 describe("message handlers", () => {
-  let eventManager: EventManager;
+  let eventManager: AdvancedPostMessage;
   const mockHandler = jest.fn().mockImplementation((input) => {
     return { hello: "world", input };
   });
@@ -451,7 +451,7 @@ describe("message handlers", () => {
   });
 
   beforeEach(() => {
-    eventManager = new EventManager(CHANNEL_ID);
+    eventManager = new AdvancedPostMessage(CHANNEL_ID);
     eventManager.on("test", mockHandler);
   });
 
@@ -558,7 +558,7 @@ describe("message handlers", () => {
 });
 
 describe("on Request nature, the sdk", () => {
-  let eventManager: EventManager;
+  let eventManager: AdvancedPostMessage;
   const mockHandler = jest.fn().mockImplementation((input) => {
     return { hello: "world", input };
   });
@@ -570,7 +570,7 @@ describe("on Request nature, the sdk", () => {
   });
 
   beforeEach(() => {
-    eventManager = new EventManager(CHANNEL_ID, { debug: true });
+    eventManager = new AdvancedPostMessage(CHANNEL_ID, { debug: true });
     eventManager.on("test", mockHandler);
   });
 
