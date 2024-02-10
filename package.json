@@ -23,7 +23,7 @@
         "name": "Deepak Kharah",
         "email": "42672761+Deepak-Kharah@users.noreply.github.com"
     },
-    "license": "ISC",
+    "license": "GPL-3.0-or-later",
     "dependencies": {
         "uuid": "^9.0.0",
         "zalgo-promise": "^1.0.48"
