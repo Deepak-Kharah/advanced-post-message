@@ -21,7 +21,7 @@ import { PostMessage } from "./sendMessage";
 /**
  * Manages the events and message communication between different windows or iframes.
  */
-export class EventManager {
+export class AdvancedPostMessage {
   private requestMessageHandlers = new Map<string, RequestListener>();
   private responseMessageHandlers = new Map<string, ResponseListener>();
   private postMessage: PostMessage;

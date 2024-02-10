@@ -1,4 +1,4 @@
-import { AdvancedPostMessage } from "..";
+import AdvancedPostMessage from "../index";
 import { Config } from "../configHandler";
 import { Logger, getErrorMessage } from "../logger";
 import { ERROR_MESSAGES } from "../logger/errorMessages.constants";
