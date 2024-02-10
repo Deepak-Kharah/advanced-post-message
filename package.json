@@ -1,54 +1,54 @@
 {
-    "name": "@deepak-kharah/advanced-post-message",
-    "version": "0.0.1-alpha.0",
-    "description": "Inspired from post robot, this module is designed to provide a simple interface for cross domain communication.",
-    "main": "dist/index.js",
-    "files": [
-        "dist"
-    ],
-    "types": "dist/src/index.d.ts",
-    "scripts": {
-        "build": "rimraf ./dist && webpack --config webpack.prod.js",
-        "dev": "webpack --config webpack.dev.js",
-        "prepare": "npm run build && husky install",
-        "lint": "eslint src",
-        "lint:fix": "eslint --fix",
-        "prettier": "prettier src --check",
-        "prettier:fix": "prettier src --write",
-        "format": "npm run prettier:fix && npm run lint:fix",
-        "test": "jest",
-        "test:watch": "jest --watchAll"
-    },
-    "author": {
-        "name": "Deepak Kharah",
-        "email": "42672761+Deepak-Kharah@users.noreply.github.com"
-    },
-    "license": "GPL-3.0-or-later",
-    "dependencies": {
-        "uuid": "^9.0.0",
-        "zalgo-promise": "^1.0.48"
-    },
-    "devDependencies": {
-        "@types/jest": "^29.5.5",
-        "@types/uuid": "^9.0.2",
-        "@types/zalgo-promise": "^1.0.0",
-        "@typescript-eslint/eslint-plugin": "^6.7.4",
-        "@typescript-eslint/parser": "^6.7.4",
-        "eslint": "^8.50.0",
-        "eslint-config-prettier": "^9.0.0",
-        "husky": "^8.0.0",
-        "jest": "^29.7.0",
-        "jest-environment-jsdom": "^29.7.0",
-        "prettier": "^3.0.3",
-        "prettier-eslint": "^15.0.1",
-        "rimraf": "^5.0.5",
-        "ts-jest": "^29.1.1",
-        "ts-loader": "^9.4.4",
-        "ts-node": "^10.9.1",
-        "typescript": "^5.2.2",
-        "webpack": "^5.88.2",
-        "webpack-cli": "^5.1.4",
-        "webpack-dev-server": "^4.15.1",
-        "webpack-merge": "^5.9.0"
-    }
+  "name": "advanced-post-message",
+  "version": "0.0.1-alpha.0",
+  "description": "Inspired from post robot, this module is designed to provide a simple interface for cross domain communication.",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/src/index.d.ts",
+  "scripts": {
+    "build": "rimraf ./dist && webpack --config webpack.prod.js",
+    "dev": "webpack --config webpack.dev.js",
+    "prepare": "npm run build && husky install",
+    "lint": "eslint src",
+    "lint:fix": "eslint --fix",
+    "prettier": "prettier src --check",
+    "prettier:fix": "prettier src --write",
+    "format": "npm run prettier:fix && npm run lint:fix",
+    "test": "jest",
+    "test:watch": "jest --watchAll"
+  },
+  "author": {
+    "name": "Deepak Kharah",
+    "email": "42672761+Deepak-Kharah@users.noreply.github.com"
+  },
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "uuid": "^9.0.0",
+    "zalgo-promise": "^1.0.48"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.5",
+    "@types/uuid": "^9.0.2",
+    "@types/zalgo-promise": "^1.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.4",
+    "@typescript-eslint/parser": "^6.7.4",
+    "eslint": "^8.50.0",
+    "eslint-config-prettier": "^9.0.0",
+    "husky": "^8.0.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "prettier": "^3.0.3",
+    "prettier-eslint": "^15.0.1",
+    "rimraf": "^5.0.5",
+    "ts-jest": "^29.1.1",
+    "ts-loader": "^9.4.4",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1",
+    "webpack-merge": "^5.9.0"
+  }
 }
