@@ -4,5 +4,5 @@
  * @returns A promise that resolves after the specified amount of time has elapsed.
  */
 export function sleep(ms = 1000) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }

@@ -3,56 +3,56 @@ import { ERROR_MESSAGES } from "@logger/errorMessages.constants";
 import { getErrorMessage } from "@logger/logger";
 
 describe("Config handler", () => {
-    beforeAll(() => {
-        Config.reset();
+  beforeAll(() => {
+    Config.reset();
 
-        // to activate the coverage
-        new Config();
+    // to activate the coverage
+    new Config();
+  });
+
+  afterEach(() => {
+    Config.reset();
+  });
+
+  it("should get initialized with default config", () => {
+    const config = Config.getAll();
+
+    expect(config.targetWindow).not.toBeUndefined();
+    //@ts-expect-error
+    delete config.targetWindow;
+
+    expect(config).toEqual({
+      debug: false,
+      channelId: "",
+      targetOrigin: "*",
     });
+  });
 
-    afterEach(() => {
-        Config.reset();
-    });
+  it("should replace the current config with the provided partial config", () => {
+    expect(Config.get("debug")).toBe(false);
 
-    it("should get initialized with default config", () => {
-        const config = Config.getAll();
+    Config.replace({ debug: true });
 
-        expect(config.targetWindow).not.toBeUndefined();
-        //@ts-expect-error
-        delete config.targetWindow;
+    expect(Config.get("debug")).toBe(true);
+  });
 
-        expect(config).toEqual({
-            debug: false,
-            channelId: "",
-            targetOrigin: "*",
-        });
-    });
+  it("should set a specific config key to the provided value", () => {
+    expect(Config.get("debug")).toBe(false);
 
-    it("should replace the current config with the provided partial config", () => {
-        expect(Config.get("debug")).toBe(false);
+    Config.set("debug", true);
 
-        Config.replace({ debug: true });
+    expect(Config.get("debug")).toBe(true);
+  });
 
-        expect(Config.get("debug")).toBe(true);
-    });
+  it("should not allow to set empty channel ID", () => {
+    expect(Config.get("channelId")).toBe("");
 
-    it("should set a specific config key to the provided value", () => {
-        expect(Config.get("debug")).toBe(false);
+    Config.replace({ channelId: "test-channel-id" });
 
-        Config.set("debug", true);
+    expect(Config.get("channelId")).toBe("test-channel-id");
 
-        expect(Config.get("debug")).toBe(true);
-    });
-
-    it("should not allow to set empty channel ID", () => {
-        expect(Config.get("channelId")).toBe("");
-
-        Config.replace({ channelId: "test-channel-id" });
-
-        expect(Config.get("channelId")).toBe("test-channel-id");
-
-        expect(() => Config.replace({ channelId: "" })).toThrowError(
-            getErrorMessage(ERROR_MESSAGES.common.channelIdRequired)
-        );
-    });
+    expect(() => Config.replace({ channelId: "" })).toThrowError(
+      getErrorMessage(ERROR_MESSAGES.common.channelIdRequired)
+    );
+  });
 });

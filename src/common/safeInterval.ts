@@ -1,20 +1,20 @@
 export function safeInterval(
-    method: () => void,
-    time: number
+  method: () => void,
+  time: number
 ): { cancel: () => void } {
-    let timeout: NodeJS.Timeout;
+  let timeout: NodeJS.Timeout;
 
-    function loop() {
-        timeout = setTimeout(() => {
-            method();
-            loop();
-        }, time);
-    }
-    loop();
+  function loop() {
+    timeout = setTimeout(() => {
+      method();
+      loop();
+    }, time);
+  }
+  loop();
 
-    return {
-        cancel() {
-            clearTimeout(timeout);
-        },
-    };
+  return {
+    cancel() {
+      clearTimeout(timeout);
+    },
+  };
 }
