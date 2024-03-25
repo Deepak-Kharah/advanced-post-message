@@ -176,6 +176,7 @@ Create a new instance of the `AdvancedPostMessage` class.
 - `options` - The options to use for the communication.
 - `options.target` - The target window to communicate with.
 - `options.targetOrigin` - The origin of the target window. This is used to restrict the communication to a specific origin. If not provided, the target origin will be set to `*`.
+- `options.suppressErrors` - A boolean to suppress the error logs. If enabled, the class will not throw an error when the target window is not available. This flag is useful when you have a library and you expect some errors. The value is set to `false` by default.
 - `options.debug` - A boolean to enable or disable the debug mode. If enabled, the class will log the messages to the console.
 
 #### `advancedPostMessage.send(type: string, payload?: any): Promise<any>`
@@ -193,3 +194,7 @@ Listen to messages from the target window.
 - `type` - The type of the message to listen to.
 - `listener` - The listener to call when a message is received. The listener will receive the event object as an argument. The listener can return a value, which will be sent back to the target window.
 - Returns an object with an `unregister` method to stop listening to messages.
+
+```
+
+```
