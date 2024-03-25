@@ -13,6 +13,7 @@ describe("Config handler", () => {
     expect(config).toEqual({
       debug: false,
       channelId: "",
+      suppressErrors: false,
       targetOrigin: "*",
     });
   });
@@ -49,5 +50,29 @@ describe("Config handler", () => {
     expect(() => config.replace({ channelId: "" })).toThrowError(
       getErrorMessage(ERROR_MESSAGES.common.channelIdRequired)
     );
+  });
+
+  it("should reset the config to the default values", () => {
+    const config = new Config();
+
+    config.replace({ debug: true, channelId: "test-channel-id" });
+
+    expect(config.get("debug")).toBe(true);
+    expect(config.get("channelId")).toBe("test-channel-id");
+
+    config.reset();
+
+    expect(config.get("debug")).toBe(false);
+    expect(config.get("channelId")).toBe("");
+  });
+
+  it("should handle the suppress errors flag", () => {
+    const config = new Config();
+
+    expect(config.get("suppressErrors")).toBe(false);
+
+    config.replace({ suppressErrors: true });
+
+    expect(config.get("suppressErrors")).toBe(true);
   });
 });

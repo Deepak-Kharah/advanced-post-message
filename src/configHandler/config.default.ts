@@ -9,5 +9,6 @@ export function getDefaultConfig(): UserConfig {
     } as unknown as Window,
     debug: false,
     channelId: "",
+    suppressErrors: false,
   };
 }

@@ -26,7 +26,9 @@ export class Logger {
   }
 
   public error(...args: any[]) {
-    console.error(this.prefix, ...args);
+    if (!this.config.get("suppressErrors")) {
+      console.error(this.prefix, ...args);
+    }
   }
 
   private getDebugOptions() {

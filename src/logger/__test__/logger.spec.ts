@@ -77,6 +77,19 @@ describe("Logger", () => {
 
     expect(consoleSpy).toHaveBeenCalledWith(EVENT_MANAGER_NAME, TEST_MESSAGE);
   });
+
+  it("should suppress error messages if suppressErrors is set to true", () => {
+    config.set("suppressErrors", true);
+
+    logger = new Logger(config);
+
+    const consoleSpy = jest
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+    logger.error(TEST_MESSAGE);
+
+    expect(consoleSpy).not.toHaveBeenCalled();
+  });
 });
 
 describe("getErrorMessage", () => {

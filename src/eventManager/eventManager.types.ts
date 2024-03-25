@@ -7,6 +7,10 @@ export interface OnEvent<Payload = any> {
 export interface EventManagerOptions {
   target: Window;
   debug: boolean;
+  /**
+   * @default false
+   */
+  suppressErrors: boolean;
   targetOrigin: string;
 }
 

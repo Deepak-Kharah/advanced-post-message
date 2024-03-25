@@ -69,6 +69,8 @@ function updateConfig(
 
   config.channelId = userInput.channelId ?? config.channelId;
 
+  config.suppressErrors = userInput.suppressErrors ?? config.suppressErrors;
+
   config.targetOrigin = userInput.targetOrigin ?? config.targetOrigin;
 
   if (userInput.target) {

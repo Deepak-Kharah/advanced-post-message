@@ -3,4 +3,8 @@ export interface UserConfig {
   targetOrigin: string;
   debug: boolean;
   channelId: string;
+  /**
+   * @default false
+   */
+  suppressErrors: boolean;
 }
