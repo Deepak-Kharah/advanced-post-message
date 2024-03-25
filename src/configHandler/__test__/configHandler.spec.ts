@@ -3,19 +3,8 @@ import { ERROR_MESSAGES } from "../../logger/errorMessages.constants";
 import { Config } from "../configHandler";
 
 describe("Config handler", () => {
-  beforeAll(() => {
-    Config.reset();
-
-    // to activate the coverage
-    new Config();
-  });
-
-  afterEach(() => {
-    Config.reset();
-  });
-
   it("should get initialized with default config", () => {
-    const config = Config.getAll();
+    const config = new Config().getAll();
 
     expect(config.targetWindow).not.toBeUndefined();
     //@ts-expect-error
@@ -29,29 +18,35 @@ describe("Config handler", () => {
   });
 
   it("should replace the current config with the provided partial config", () => {
-    expect(Config.get("debug")).toBe(false);
+    const config = new Config();
 
-    Config.replace({ debug: true });
+    expect(config.get("debug")).toBe(false);
 
-    expect(Config.get("debug")).toBe(true);
+    config.replace({ debug: true });
+
+    expect(config.get("debug")).toBe(true);
   });
 
   it("should set a specific config key to the provided value", () => {
-    expect(Config.get("debug")).toBe(false);
+    const config = new Config();
 
-    Config.set("debug", true);
+    expect(config.get("debug")).toBe(false);
 
-    expect(Config.get("debug")).toBe(true);
+    config.set("debug", true);
+
+    expect(config.get("debug")).toBe(true);
   });
 
   it("should not allow to set empty channel ID", () => {
-    expect(Config.get("channelId")).toBe("");
+    const config = new Config();
 
-    Config.replace({ channelId: "test-channel-id" });
+    expect(config.get("channelId")).toBe("");
 
-    expect(Config.get("channelId")).toBe("test-channel-id");
+    config.replace({ channelId: "test-channel-id" });
 
-    expect(() => Config.replace({ channelId: "" })).toThrowError(
+    expect(config.get("channelId")).toBe("test-channel-id");
+
+    expect(() => config.replace({ channelId: "" })).toThrowError(
       getErrorMessage(ERROR_MESSAGES.common.channelIdRequired)
     );
   });

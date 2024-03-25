@@ -4,18 +4,17 @@ import { Logger, getErrorMessage } from "../logger";
 
 describe("Logger", () => {
   let logger: Logger;
+  let config: Config;
   const TEST_MESSAGE = "test message";
 
-  beforeAll(() => {
-    Config.reset();
-  });
-
   beforeEach(() => {
-    Config.set("targetOrigin", "https://example-target-origin.com");
-    Config.set("targetWindow", window);
-    Config.set("debug", false);
+    config = new Config();
 
-    logger = new Logger();
+    config.set("targetOrigin", "https://example-target-origin.com");
+    config.set("targetWindow", window);
+    config.set("debug", false);
+
+    logger = new Logger(config);
   });
 
   afterEach(() => {
@@ -23,7 +22,6 @@ describe("Logger", () => {
   });
 
   afterAll(() => {
-    Config.reset();
     jest.restoreAllMocks();
   });
 
@@ -42,16 +40,16 @@ describe("Logger", () => {
   });
 
   it("should log a debug message with the prefix if debug is set to true", () => {
-    Config.set("debug", true);
+    config.set("debug", true);
 
-    logger = new Logger();
+    logger = new Logger(config);
 
     const consoleSpy = jest
       .spyOn(console, "debug")
       .mockImplementation(() => {});
     logger.debug(TEST_MESSAGE);
 
-    expect(consoleSpy).toHaveBeenCalledWith(
+    expect(consoleSpy).toHaveBeenLastCalledWith(
       EVENT_MANAGER_NAME,
       "DEBUG:",
       TEST_MESSAGE,

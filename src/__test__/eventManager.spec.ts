@@ -1,5 +1,4 @@
 import AdvancedPostMessage from "../index";
-import { Config } from "../configHandler";
 import { Logger, getErrorMessage } from "../logger";
 import { ERROR_MESSAGES } from "../logger/errorMessages.constants";
 import { sleep } from "../testUtils/sleep";
@@ -38,7 +37,6 @@ describe("event manager constructor", () => {
 
   afterAll(() => {
     jest.restoreAllMocks();
-    Config.reset();
   });
 
   test("should throw an error if the channel ID is not provided", () => {
@@ -98,7 +96,6 @@ describe("event manager constructor", () => {
   });
 
   test("should set the any origin if no target origin is provided", async () => {
-    Config.reset();
     eventManager = new AdvancedPostMessage(CHANNEL_ID);
 
     try {

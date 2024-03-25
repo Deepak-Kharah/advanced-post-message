@@ -26,15 +26,18 @@ export class AdvancedPostMessage {
   private responseMessageHandlers = new Map<string, ResponseListener>();
   private postMessage: PostMessage;
   private logger: Logger;
+  private config: Config;
 
   constructor(channelId: string, options: Partial<EventManagerOptions> = {}) {
     if (!channelId) {
       throw new Error(getErrorMessage(ERROR_MESSAGES.common.channelIdRequired));
     }
-    Config.replace({ ...options, channelId: channelId });
+    this.config = new Config();
 
-    this.logger = new Logger();
-    this.postMessage = new PostMessage(this.logger);
+    this.config.replace({ ...options, channelId: channelId });
+
+    this.logger = new Logger(this.config);
+    this.postMessage = new PostMessage(this.logger, this.config);
 
     this.handleIncomingMessage = this.handleIncomingMessage.bind(this);
     this.send = this.send.bind(this);
@@ -61,7 +64,7 @@ export class AdvancedPostMessage {
 
     if (
       eventManager !== EVENT_MANAGER_NAME ||
-      channel !== Config.get("channelId")
+      channel !== this.config.get("channelId")
     ) {
       return;
     }
@@ -71,7 +74,7 @@ export class AdvancedPostMessage {
     switch (nature) {
       case EditorPostMessageNature.REQUEST: {
         this.logger.debug("REQUEST received", event.data);
-        if (Config.get("targetWindow").closed) {
+        if (this.config.get("targetWindow").closed) {
           this.logger.error(
             getErrorMessage(ERROR_MESSAGES.common.windowClosed)
           );
@@ -201,7 +204,7 @@ export class AdvancedPostMessage {
     let ackTimeLeft = totalAllowedAckTime;
 
     const interval = safeInterval(() => {
-      if (Config.get("targetWindow").closed) {
+      if (this.config.get("targetWindow").closed) {
         return promise.reject(
           new Error(getErrorMessage(ERROR_MESSAGES.common.windowClosed))
         );
@@ -308,13 +311,18 @@ export class AdvancedPostMessage {
    * @param config - The partial configuration options to update.
    */
   updateConfig(config: Partial<EventManagerOptions> & { channelId?: string }) {
-    Config.replace(config);
+    this.config.replace(config);
   }
 
   /**
    * Destroy the event manager
    */
-  destroy() {
-    window.removeEventListener("message", this.handleIncomingMessage);
+  destroy(config?: { soft?: boolean }) {
+    this.requestMessageHandlers.clear();
+    this.responseMessageHandlers.clear();
+
+    if (!config?.soft) {
+      window.removeEventListener("message", this.handleIncomingMessage);
+    }
   }
 }

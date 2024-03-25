@@ -10,19 +10,20 @@ describe("PostMessage", () => {
   const targetWindow = window;
   const targetOrigin = "http://localhost:3000";
   const channelId = "test-channel";
-  Config.reset();
   let logger: Logger;
+  let config: Config;
   let loggerSpy: jest.SpyInstance;
 
   let postMessage: PostMessage;
 
   beforeEach(() => {
-    Config.set("targetOrigin", targetOrigin);
-    Config.set("targetWindow", targetWindow);
-    Config.set("channelId", channelId);
-    logger = new Logger();
+    config = new Config();
+    config.set("targetOrigin", targetOrigin);
+    config.set("targetWindow", targetWindow);
+    config.set("channelId", channelId);
+    logger = new Logger(config);
     loggerSpy = jest.spyOn(logger, "debug");
-    postMessage = new PostMessage(logger);
+    postMessage = new PostMessage(logger, config);
   });
 
   afterEach(() => {
@@ -31,7 +32,6 @@ describe("PostMessage", () => {
   });
 
   afterAll(() => {
-    Config.reset();
     jest.restoreAllMocks();
   });
 

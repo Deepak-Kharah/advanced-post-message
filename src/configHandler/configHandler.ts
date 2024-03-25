@@ -8,15 +8,13 @@ import { UserConfig } from "./configHandler.types";
  * Class responsible for handling the configuration settings.
  */
 export class Config {
-  private static config: UserConfig = getDefaultConfig();
+  private config: UserConfig = getDefaultConfig();
 
   /**
    * Replaces the current configuration with the provided partial configuration.
    * @param config - The partial configuration to replace the current configuration with.
    */
-  static replace(
-    config: Partial<EventManagerOptions> & { channelId?: string }
-  ): void {
+  replace(config: Partial<EventManagerOptions> & { channelId?: string }): void {
     updateConfig(config, this.config);
   }
 
@@ -25,7 +23,7 @@ export class Config {
    * @param key - The configuration key to set.
    * @param value - The value to set for the configuration key.
    */
-  static set<K extends keyof UserConfig>(key: K, value: UserConfig[K]): void {
+  set<K extends keyof UserConfig>(key: K, value: UserConfig[K]): void {
     this.config[key] = value;
   }
 
@@ -34,7 +32,7 @@ export class Config {
    * @param key - The configuration key to retrieve the value for.
    * @returns The value of the configuration key.
    */
-  static get<K extends keyof UserConfig>(key: K): UserConfig[K] {
+  get<K extends keyof UserConfig>(key: K): UserConfig[K] {
     return this.config[key];
   }
 
@@ -42,14 +40,14 @@ export class Config {
    * Retrieves all user configurations.
    * @returns {UserConfig} The user configurations.
    */
-  static getAll(): UserConfig {
+  getAll(): UserConfig {
     return this.config;
   }
 
   /**
    * Resets the configuration to the default values.
    */
-  static reset(): void {
+  reset(): void {
     this.config = getDefaultConfig();
   }
 }

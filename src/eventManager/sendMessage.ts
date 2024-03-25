@@ -1,5 +1,6 @@
 import { Config } from "../configHandler";
 import { Logger } from "../logger";
+import { UserConfig } from "../types";
 import {
   PostMessageSendOptions,
   EditorPostMessageNature,
@@ -7,13 +8,18 @@ import {
 } from "./postMessageEvents.types";
 
 export class PostMessage {
-  private config = Config.getAll();
+  private config: UserConfig;
 
-  constructor(private logger: Logger) {
+  constructor(
+    private logger: Logger,
+    config: Config
+  ) {
     this.sendResponse = this.sendResponse.bind(this);
     this.sendRequest = this.sendRequest.bind(this);
     this.sendAck = this.sendAck.bind(this);
     this.getMessage = this.getMessage.bind(this);
+
+    this.config = config.getAll();
   }
 
   sendRequest(config: PostMessageSendOptions) {
