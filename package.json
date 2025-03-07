@@ -1,6 +1,6 @@
 {
   "name": "advanced-post-message",
-  "version": "0.0.1-beta.1.0",
+  "version": "1.0.0",
   "description": "Inspired from post robot, this module is designed to provide a simple interface for cross domain communication.",
   "main": "dist/index.js",
   "files": [
