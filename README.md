@@ -14,6 +14,7 @@ This project is built to understand how [post-robot](https://www.npmjs.com/packa
     - [Returning values from the listener](#returning-values-from-the-listener)
     - [Debug mode](#debug-mode)
     - [Multiple channels](#multiple-channels)
+    - [Support for `AbortController`](#support-for-abortcontroller)
     - [Typescript](#typescript)
   - [API](#api)
     - [AdvancedPostMessage](#advancedpostmessage)
@@ -138,6 +139,40 @@ const advancedPostMessage2 = new AdvancedPostMessage("channel-id-2", {
   target: iframe2.contentWindow,
 });
 ```
+
+### Support for `AbortController`
+
+You can use the `AbortController` to unregister the listener when the controller is aborted.
+
+```javascript
+import AdvancedPostMessage from "advanced-post-message";
+
+const iframe = document.getElementById("iframe");
+const controller = new AbortController();
+const advancedPostMessage = new AdvancedPostMessage("channel-id");
+
+const listener = advancedPostMessage.on("message", (event) => {
+  console.log(event.data);
+});
+
+controller.abort(); // The listener will be unregistered
+
+```
+
+Additionally, you can also cancel the send request when the controller is aborted.
+
+```javascript
+import AdvancedPostMessage from "advanced-post-message";
+
+const iframe = document.getElementById("iframe");
+const controller = new AbortController();
+const advancedPostMessage = new AdvancedPostMessage("channel-id");
+
+advancedPostMessage.send("message", { data: "Hello, world!" }, {
+  signal: AbortSignal.aborted()
+}); // The request will be rejected
+```
+
 
 ### Typescript
 
