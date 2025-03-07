@@ -213,7 +213,6 @@ export class AdvancedPostMessage {
 
     function cancelEvent() {
       responseListener.hasCancelled = true;
-      console.log("checking");
     }
 
     if (signal) {
