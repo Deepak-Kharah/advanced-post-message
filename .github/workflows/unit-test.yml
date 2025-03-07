@@ -1,11 +1,12 @@
-name: "Coverage"
+name: "Jest Coverage Report"
 on:
   push:
     branches:
       - master
       - main
   pull_request:
-    types: [opened]
+    types: [opened, synchronize, reopened]
+
 jobs:
   coverage:
     permissions:
