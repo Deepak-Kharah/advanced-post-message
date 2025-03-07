@@ -3,18 +3,20 @@ import { safeInterval } from "../common/safeInterval";
 import { uniqueId } from "../common/uniqueId";
 import { Config } from "../configHandler";
 import { Logger, getErrorMessage } from "../logger";
-import { ERROR_MESSAGES, ERROR_CODES } from "../logger/errorMessages.constants";
+import { ERROR_CODES, ERROR_MESSAGES } from "../logger/errorMessages.constants";
 import { EVENT_MANAGER_NAME, RESPONSE_CYCLE } from "./eventManager.constant";
 import {
-  RequestListener,
-  ResponseListener,
   EventManagerOptions,
   OnEvent,
+  EventManagerOnOptions,
+  EventManagerSendOptions,
   RequestHandler,
+  RequestListener,
+  ResponseListener,
 } from "./eventManager.types";
 import {
-  EditorRequestEventMessage,
   EditorPostMessageNature,
+  EditorRequestEventMessage,
 } from "./postMessageEvents.types";
 import { PostMessage } from "./sendMessage";
 
@@ -187,9 +189,15 @@ export class AdvancedPostMessage {
    * const output = eventManager.send("my-event", { foo: "bar" });
    * console.log(output) // { foo: "bar1" }
    */
-  async send<ReturnType = undefined>(type: string, payload?: any) {
+  async send<ReturnType = undefined>(
+    type: string,
+    payload?: any,
+    options: Partial<EventManagerSendOptions> = {}
+  ) {
     const promise = new ZalgoPromise<ReturnType>();
     const hash = uniqueId(type);
+    const { signal } = options;
+    const cancelledCallbackController = new AbortController();
 
     const responseListener: ResponseListener = {
       type,
@@ -203,21 +211,31 @@ export class AdvancedPostMessage {
     const totalAllowedAckTime = 1000;
     let ackTimeLeft = totalAllowedAckTime;
 
+    function cancelEvent() {
+      responseListener.hasCancelled = true;
+    }
+
+    if (signal) {
+      if (signal.aborted) {
+        cancelEvent();
+      } else {
+        signal.addEventListener("abort", cancelEvent, {
+          signal: cancelledCallbackController.signal,
+        });
+      }
+    }
+
     const interval = safeInterval(() => {
       if (this.config.get("targetWindow").closed) {
         return promise.reject(
           new Error(getErrorMessage(ERROR_MESSAGES.common.windowClosed))
         );
       }
-
-      // TODO: raise this event
-      // if (responseListener.hasCancelled) {
-      //     return promise.reject(
-      //         new Error(
-      //             getErrorMessage(ERROR_MESSAGES.sendEvent.eventCancelled)
-      //         )
-      //     );
-      // }
+      if (responseListener.hasCancelled) {
+        return promise.reject(
+          new Error(getErrorMessage(ERROR_MESSAGES.sendEvent.eventCancelled))
+        );
+      }
 
       ackTimeLeft = Math.max(ackTimeLeft - RESPONSE_CYCLE, 0);
 
@@ -231,6 +249,7 @@ export class AdvancedPostMessage {
     promise
       .finally(() => {
         this.responseMessageHandlers.delete(hash);
+        cancelledCallbackController.abort();
         interval.cancel();
       })
       .catch((err) => {
@@ -268,8 +287,11 @@ export class AdvancedPostMessage {
    */
   on<Payload = unknown, ReturnType = any>(
     type: string,
-    handler: RequestHandler<Payload, ReturnType>
+    handler: RequestHandler<Payload, ReturnType>,
+    options: Partial<EventManagerOnOptions> = {}
   ) {
+    const { signal } = options;
+
     if (this.requestMessageHandlers.has(type)) {
       this.logger.error(
         getErrorMessage(
@@ -282,6 +304,12 @@ export class AdvancedPostMessage {
       handler,
     };
     this.requestMessageHandlers.set(type, requestListener);
+
+    if (signal) {
+      signal.addEventListener("abort", () => {
+        this.unregisterEvent(type);
+      });
+    }
 
     return {
       unregister: () => {

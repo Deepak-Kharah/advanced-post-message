@@ -28,3 +28,10 @@ export interface RequestListener {
 export type RequestHandler<Payload = any, ReturnType = any> = (
   event: OnEvent<Payload>
 ) => ReturnType;
+
+export interface EventManagerOnOptions {
+  signal: AbortSignal;
+}
+export interface EventManagerSendOptions {
+  signal: AbortSignal;
+}
