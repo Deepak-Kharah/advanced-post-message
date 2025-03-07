@@ -1,20 +1,18 @@
-# This workflow will install dependencies, create coverage tests and run Jest Coverage Comment
-# For more information see: https://github.com/MishaKav/jest-coverage-comment/
-name: Jest Coverage Comment
+name: "Coverage"
 on:
+  push:
+    branches:
+      - master
+      - main
   pull_request:
+    types: [opened]
 jobs:
-  build:
+  coverage:
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run tests
-        run: |
-          npx jest --coverage --coverageReporters json-summary
-
-      - name: Jest Coverage Comment
-        uses: MishaKav/jest-coverage-comment@main
+      - uses: actions/checkout@v1
+      - uses: ArtiomTr/jest-coverage-report-action@v2
