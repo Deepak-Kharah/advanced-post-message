@@ -308,15 +308,24 @@ export class AdvancedPostMessage {
     };
     this.requestMessageHandlers.set(type, requestListener);
 
+    const unregisterCallbackController = new AbortController();
+
     if (signal) {
-      signal.addEventListener("abort", () => {
-        this.unregisterEvent(type);
-      });
+      signal.addEventListener(
+        "abort",
+        () => {
+          this.unregisterEvent(type);
+        },
+        {
+          signal: unregisterCallbackController.signal,
+        }
+      );
     }
 
     return {
       unregister: () => {
         this.unregisterEvent(type);
+        unregisterCallbackController.abort();
       },
     };
   }
