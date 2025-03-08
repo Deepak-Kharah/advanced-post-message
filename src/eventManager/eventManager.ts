@@ -233,7 +233,10 @@ export class AdvancedPostMessage {
       }
       if (responseListener.hasCancelled) {
         return promise.reject(
-          new Error(getErrorMessage(ERROR_MESSAGES.sendEvent.eventCancelled))
+          new DOMException(
+            getErrorMessage(ERROR_MESSAGES.sendEvent.eventCancelled),
+            "AbortError"
+          )
         );
       }
 
